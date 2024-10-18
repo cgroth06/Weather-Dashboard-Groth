@@ -1,9 +1,13 @@
 import dotenv from 'dotenv';
 import express from 'express';
 dotenv.config();
-import allRoutes from './routes/index.js';
-// Import the routes
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Import the routes
+import routes from './routes/index.js';
 
 const app = express();
 
@@ -16,8 +20,8 @@ const PORT = process.env.PORT || 3001;
 // TODO: Implement middleware to connect the routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('../client/dist'));
-app.use(allRoutes);
+app.use(express.static(path.join(__dirname,'../client/dist')));
+app.use(routes);
 
 // Start the server on the port
 app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
